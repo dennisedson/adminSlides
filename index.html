@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	<title>reveal.js</title>
+
+	<link rel="stylesheet" href="dist/reset.css" />
+	<link rel="stylesheet" href="dist/reveal.css" />
+	<link rel="stylesheet" href="dist/theme/black.css" />
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css" />
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<h2>Lets build a custom card!</h2>
+				<ul>
+					<li><a href="#/fit-text">Local Dev Setup</a></li>
+					<li><a href="#/stretch">Getting started</a></li>
+					<li><a href="#/stretch">Installing an example custom card</a></li>
+					<li><a href="#/stack">Building a custom card from scratch</a></li>
+					<li>
+						<a href="#/hstack">Adding serverless function and reaching outside of the CRM</a>
+					</li>
+					<li><a href="#/vstack">Did it work?</a></li>
+				</ul>
+			</section>
+			<section>
+				<h2>Local Dev Setup</h2>
+				<p>
+					Create a folder where you would like to work on this project. I
+					believe it is important to get comfortable with the terminal so I
+					will demonstrate creating folders and files in the terminal.
+				</p>
+				<p>
+					In the next slide, we will use the terminal to create all of the
+					folders and files for the initial setup. The files will be empty at this point. We will go back and pour in
+					the code in later steps
+				</p>
+			</section>
+			<section>
+				<h2>Local Dev Setup | structure</h2>
+				<div class="fragment fade-in-then-semi-out"">
+            <p>
+              We will move to the desktop folder and create a new folder called
+              jepsometer. Then we will move into the jepsometer folder.
+            </p>
+            <pre><code class="" data-trim data-line-numbers>
+						cd ~/Desktop && mkdir jepsometer && cd jepsometer
+					</code></pre>
+          </div>
+
+          <div class=" fragment fade-in-then-semi-out">
+					<p>
+						Now that we are in the folder we will be using, let's initialize
+						the HubSpot CLI so that it can communicate with your account
+					</p>
+					<pre><code class="" data-trim data-line-numbers>
+						hs init
+					</code></pre>
+				</div>
+				<p class="fragment fade-in-then-semi-out">
+					This will guide you through authenticating the HubSpot CLI with your
+					account. When you are done, you will have a hubspot.config.yml file
+					in your folder
+				</p>
+				<div class="fragment fade-in-then-semi-out">
+					<p>
+						Next step is to create a project which will act as the container
+						for our app in our account. The CLI will ask you a series of
+						questions including name of the project, location and if you wan to use a template. Call your project
+						jepsometer and choose the
+						default location and no template
+					</p>
+					<pre><code class="" data-trim data-line-numbers>
+						hs project create
+					</code></pre>
+				</div>
+				<p class="fragment fade-in">
+					You should now have two files in your folder. hubspot.config.yml
+					and hsproject.json
+				</p>
+			</section>
+			<section id="">
+				<h2>Local Dev Setup | Optional package.json file</h2>
+				<p>This file is optional, but will make your life slightly easier as you won't have to navigate to other
+					directories to install dependencies.</p>
+				<div class="fade-in-then-semi-out fragment">
+					<p> From your terminal and still in the main folder, type this command</p>
+					<pre>
+						<code class="" data-trim data-line-numbers>
+						touch package.json
+						</code>
+					</pre>
+				</div>
+			</section>
+			<section>
+				<h2>local dev setup | private app </h2>
+				<p>UI extensions require a private app to function. A single private app can be used for multiple custom cards
+				</p>
+				<div class="fade-in-then-semi-out fragment">
+					<p> From your terminal and still in the main folder, type the following command</p>
+					<pre><code class="bash" data-trim data-line-numbers>
+						mkdir src && cd src
+						</code></pre>
+					<pre><code class="bash" data-trim data-line-numbers>
+						mkdir app && cd app
+						</code></pre>
+					<pre><code class="bash" data-trim data-line-numbers>
+						touch app.json
+						</code></pre>
+				</div>
+			</section>
+			<section>
+				<h2>local dev setup | extensions </h2>
+				<p>We are are now at the meat of the project. The extensions folder we are about to create is where we will be
+					building the custom card. For a custom card to work, it needs to in the extensions folder and it requires a
+					minimum of 3 files.</p>
+				<ul class="fragment fade-in">
+					<li>custom-card.json</li>
+					<li>CustomCard.jsx or CustomCard.tsx</li>
+					<li>package.json</li>
+				</ul>
+				<p class="fragment fade-in-then-fade-out">
+					Although a custom card requires a package.json file, this file can be shared amongst multiple cards
+				</p>
+			</section>
+			<section>
+				<h2>local dev setup | extensions </h2>
+				<p>Lets create our extensions folder and the files in it</p>
+				<div class="fade-in-then-semi-out fragment">
+					<p> From within the app folder, run the following commands in your terminal</p>
+					<pre><code class="bash" data-trim data-line-numbers>
+										mkdir extensions && cd extensions
+										</code></pre>
+					<pre><code class="bash" data-trim data-line-numbers>
+										touch associated-deals.json
+										</code></pre>
+					<pre><code class="bash" data-trim data-line-numbers>
+										touch AssociatedDeals.jsx
+										</code></pre>
+					<pre><code class="bash" data-trim data-line-numbers>
+										touch package.json
+										</code></pre>
+				</div>
+			</section>
+			<section>
+				<h2>local dev setup | serverless functions</h2>
+				<p>On its own, the front end of the custom card is very powerful and can display a wealth of data about the
+					record it is on and its associations, but if you want to dig deeper into your CRM or if you want to interact
+					with data outside of your CRM, serverless functions are the next step.</p>
+				<p>In this demo, we will be calling a
+					serverless function to interact with a HubDB table hosted on a different HubSpot account. This hubdb table
+					will control how a website page displays data.</p>
+			</section>
+			<section>
+				<p>Serverless functions are stored in a folder called app.functions and, similar to the custom card, require 3
+					files</p>
+				<ul class="fade-in-then-semi-out fragment">
+					<li>functionName.json</li>
+					<li>serverless.json</li>
+					<li>package.json</li>
+				</ul>
+			</section>
+			<section>
+				<h2>local dev setup | serverless functions </h2>
+				<p>Let's create the app.functions folder and the files in it</p>
+				<p class="fade-in-then-semi-out fragment">Again, in your terminal, we will need to navigate out of the
+					extensions
+					folder and back into the app folder.
+					The we will create the new folder and files in the new folder</p>
+				<div class="fade-in-then-semi-out fragment">
+					<p> From within the app folder, run the following commands in your terminal</p>
+					<pre><code class="bash" data-trim data-line-numbers>
+															cd .. && mkdir app.functions && cd app.functions
+															</code></pre>
+					<pre><code class="bash" data-trim data-line-numbers>
+															touch thanksKyle.js
+															</code></pre>
+					<pre><code class="bash" data-trim data-line-numbers>
+															touch serverless.json
+															</code></pre>
+					<pre><code class="bash" data-trim data-line-numbers>
+															touch package.json
+															</code></pre>
+				</div>
+			</section>
+			<section>
+				<h2>Pouring in the content </h2>
+				<p>You should now have the structure set up for your custom card. Right now, everything is empty. Let's get to
+					pouring in some content!</p>
+			</section>
+			<section>
+				<h2>Pouring in the content | our optional package.json file </h2>
+				<p>You should now have the structure set up for your custom card. Right now, everything is empty. Let's get to
+					pouring in some content!</p>
+				<p>Remember that optional package.json file we created at the beginning? We are going to use this so we can run
+					the scripts in the extensions and app.functions package.json file.<br> Open up the package.json file located
+					at
+					the top level of your project in your code editor and add the following</p>
+				<pre class="fade-in fragment" data-id="code-animation">
+					<code class="hljs json" data-trim data-line-numbers="|1-3|4-6|"><script type="text/template">
+{
+  "name": "jepsometer",
+  "version": "0.1.0",
+  "scripts": {
+    "postinstall": "cd ./src/app/extensions/ && npm install && cd ../app.functions && npm install"
+  },
+  "author": {
+    "name": "dennis edson",
+    "email": "dedson@hubspot.com"
+  },
+  "license": "MIT"
+}
+					</script>
+					</code>
+				</pre>
+			</section>
+			<section>
+				<h2>Pouring in the content | Private App </h2>
+				<p>As mentioned earlier, a custom card requires a private app. To create a private app, we are going to fill in
+					the data in the app.json file located in the app folder</p>
+				<pre class="fade-in fragment" data-id="code-animation">
+					<code class="hljs json" data-trim data-line-numbers="|2-4|5-7|8|9-17"><script type="text/template">{
+  "name": "Jepson3000k",
+  "description": "Jepsons 3000k",
+  "uid": "jepson3000k",
+  "scopes": [
+    "crm.objects.contacts.read"
+  ],
+  "public": false,
+  "extensions": {
+    "crm": {
+      "cards": [
+        {
+          "file": "extensions/associated-deals.json"
+        }
+      ]
+    }
+  }
+}</script>
+					</code>
+				</pre>
+			</section>
+			<section>
+				<h2>Pouring in the content | Custom Card | associated-deals.json </h2>
+				<p>Now we are going to pour in the content for the custom card. We will start with the associated-deals.json
+					file
+					located in the extensions folder</p>
+				<pre class="fade-in fragment" data-id="code-animation">
+					<code class="hljs json" data-trim data-line-numbers="|2|3-5|6|7-9|10-14|"><script type="text/template">{
+  "type": "crm-card",
+  "data": {
+    "title": "Jespon 3000k",
+    "uid": "jespon-3000k-custom-card",
+    "location": "crm.record.tab",
+    "module": {
+      "file": "AssociatedDeals.jsx"
+    },
+    "objectTypes": [
+      {
+        "name": "contacts"
+      }
+    ]
+  }
+}</script>
+					</code>
+				</pre>
+			</section>
+			<section>
+				<h2>Pouring in the content | Custom Card | AssociatedDeals.jsx</h2>
+				<p>Next up, the react file. For now, we are going to create the absolute minimum in this file. We will revisit
+					it later</p>
+				<pre class="fade-in fragment" data-id="code-animation">
+					<code class="hljs react" data-trim data-line-numbers="|2|3-5|6|7-9|10-14|"><script type="text/template">import React from "react";
+import { hubspot } from "@hubspot/ui-extensions";
+
+hubspot.extend() => (
+  
+));
+}</script>
+					</code>
+				</pre>
+			</section>
+			<section>
+				<h2>Pouring in the content | Custom Card | package.json</h2>
+				<p>Finally for our front-end, we are going to pour in the content for the package.json file located in the
+					extensions folder</p>
+				<pre class="fade-in fragment" data-id="code-animation">
+					<code class="hljs json" data-trim data-line-numbers="|9-12|"><script type="text/template">{
+  "name": "jepsometer3000-extension",
+  "version": "0.1.0",
+  "author": "Dennis Edson",
+  "license": "MIT",
+  "scripts": {
+    "dev": "hs project dev"
+  },
+  "dependencies": {
+    "@hubspot/ui-extensions": "latest",
+    "react": "^18.2.0"
+  }
+}</script>
+					</code>
+				</pre>
+			</section>
+			<section>
+				<h2>Pouring in the content | Serverless Functions | package.json</h2>
+				<p>Now we are going to pour in the content for the serverless function. We will start with the package.json file
+					located in the app.functions folder</p>
+				<pre class="fade-in fragment" data-id="code-animation">
+					<code class="hljs javascript" data-trim data-line-numbers="|2|6-8|"><script type="text/template">{
+  "name": "hubdb_updater",
+  "version": "0.1.0",
+  "author": "Dennis Edson",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}</script></code></pre>
+			</section>
+			<section>
+				<h2>Pouring in the content | Serverless Functions | thanksKyle.js</h2>
+				<p>Next up, the serverless function file. For now, we are going to create the absolute minimum in this file. We
+					will revisit it later</p>
+				<pre class="fade-in fragment" data-id="code-animation">
+					<code class="hljs javascript" data-trim data-line-numbers="|1|3|">const axios = require('axios');
+
+exports.main = async () => {}</script></code></pre>
+			</section>
+			<section>
+				<h2>Pouring in the content | Serverless Functions | serverless.json</h2>
+				<p>Finally for our back-end, we are going to pour in the content for the serverless.json file located in the
+					app.functions folder</p>
+				<pre class="fade-in fragment" data-id="code-animation">
+					<code class="hljs javascript" data-trim data-line-numbers="|2-4|">
+{
+	"appFunctions": {
+		"jepsonupdater": {
+			"file": "thanksKyle.js",
+			"secrets": []
+		}
+	}
+}
+
+					</code>
+				</pre>
+			</section>
+			<section>
+				<h2>Upload the project to your HubSpot account</h2>
+				<p>We have done a lot! And now we have the minimum required files and content to register this extension with
+					our HubSpot account. </p>
+				<p class="fade-in fragment"> Let's head back to the terminal. Make sure you are in the root directory which
+					would be the one that contains the hsproject.json file. Once you are there, run this command </p>
+				<pre>
+					<code class="hljs bash" data-trim data-line-numbers>
+					hs project upload
+					</code>
+				</pre>
+			</section>
+		</div>
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+		});
+	</script>
+</body>
+
+</html>

@@ -355,13 +355,41 @@ exports.main = async () => {}</script></code></pre>
 				<h2>Upload the project to your HubSpot account</h2>
 				<p>We have done a lot! And now we have the minimum required files and content to register this extension with
 					our HubSpot account. </p>
-				<p class="fade-in fragment"> Let's head back to the terminal. Make sure you are in the root directory which
+				<p class="fade-in-then-semi-fade-out fragment"> Let's head back to the terminal. Make sure you are in the root
+					directory which
 					would be the one that contains the hsproject.json file. Once you are there, run this command </p>
 				<pre>
 					<code class="hljs bash" data-trim data-line-numbers>
 					hs project upload
 					</code>
 				</pre>
+				<p class="fade-in fragment">If all went well, you should be able to login to you account and add this card to
+					contact records!</p>
+
+			</section>
+			<section>
+				<h2>Let's get our local dev server running!</h2>
+				<p class="fade-in-then-semi-fade-out fragment">Now that you have uploaded your card, we will fire up our local
+					dev server so we can
+					build out our cards. With local dev, you can safely build and break you card without fear of the production
+					card being affected.</p>
+				<div class="fade-in fragment">
+					<p>
+						From the terminal, run the following command
+					</p>
+					<pre>
+						<code class="hljs bash" data-trim data-line-numbers>
+						hs project dev
+						</code>
+					</pre>
+				</div>
+				<p class="fade-in fragment">Once you run this command, you can open your HubSpot account and navigate to a
+					contact record. If you have added the custrom card, you will see it with a label above it indicating that you
+					are actively developing this custom card. This is only viewable to you and not anyone else</p>
+			</section>
+			<section>
+				<h2>Almost time to make the custom card do something...but first</h2>
+				<p>Let's talk about keeping our react components organized</p>
 			</section>
 		</div>
 	</div>

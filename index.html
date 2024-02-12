@@ -19,12 +19,45 @@
 	<div class="reveal">
 		<div class="slides">
 			<section>
-				<h2>Lets build a custom card!</h2>
+				<h1>Jepsometer 3k</h1>
+				<h3>Building a custom card</h3>
+				<p>HubSpot Admin HUG</p>
+				<p>Presented by Dennis Edson</p>
+			</section>
+			<section>
+				<h2>Table of contents</h2>
 				<ul>
-					<li><a href="#sample"></a>Installing a sample custom card</li>
-					<li><a href="#/fit-text">Local Dev Setup</a></li>
-					<li><a href="#/stretch">Getting started</a></li>
-					<li><a href="#/stretch">Installing an example custom card</a></li>
+					<li><a href="#/custom">Installing a sample custom card</a></li>
+					<li><a href="#/structure">Local Dev Setup | Creating the structure</a></li>
+					<li>Pouring in the content | Custom Card
+						<ul>
+							<li><a href="#/optpackage"">Optional package.json file</a></li>
+							<li><a href=" #/pa">Private App</a></li>
+							<li><a href="#/cc1">Pouring in the content | Custom Card | associated-deals.json</a></li>
+							<li><a href="#/cc3">Pouring in the content | Custom Card | AssociatedDeals.jsx</a></li>
+							<li><a href="#/cc3">Pouring in the content | Custom Card | package.json</a></li>
+						</ul>
+					<li>Pouring in the content | Serverless Functions
+						<ul>
+							<li><a href="#/sf1">Pouring in the content | Serverless Functions | package.json</a></li>
+							<li><a href="#/sf2">Pouring in the content | Serverless Functions | thanksKyle.js</a></li>
+							<li><a href="#/sf3">Pouring in the content | Serverless Functions | serverless.json</a></li>
+						</ul>
+					</li>
+					<li>Building the components out
+						<ul>
+							<li><a href="#/cc4">Building the custom card | Layout.jsx</a></li>
+							<li><a href="#/cc5">Building the custom card | Stats.jsx </a></li>
+							<li><a href="#/cc6">Building the custom card | Clicker.jsx </a></li>
+							<li><a href="#/cc7">Building the custom card | Updating AssociatedDeals.jsx</a></li>
+							<li><a href="#/cc8">Building the custom card | DealPanel.jsx</a></li>
+							<li><a href="#/cc9">Building the custom card | DealPanelInner.jsx</a></li>
+							<li><a href="#/cc10">Building the custom card | Updating AssociatedDeals.jsx for the DealPanel</a></li>
+							<li><a href="#/cc11">Building the custom card | Adding the serverless function to AssociatedDeals.jsx</a>
+							</li>
+						</ul>
+					</li>
+					<li><a href=" #/stretch">Installing an example custom card</a></li>
 					<li><a href="#/stack">Building a custom card from scratch</a></li>
 					<li>
 						<a href="#/hstack">Adding serverless function and reaching outside of the CRM</a>
@@ -37,7 +70,8 @@
 				<p>
 					HubSpot has several sample custom cards built for you to explore. They provide a great way of reverse
 					engineering the process as well as demosntrating some best practices.
-					With the HubSpot CLI that has been authenticated with your account, you can install a sample custom card with
+					With the HubSpot CLI that has been authenticated with your account, you can install a sample custom card
+					with
 					a single command.
 				</p>
 				<p>
@@ -50,7 +84,7 @@
 					</code>
 				</pre>
 			</section>
-			<section>
+			<section id="structure">
 				<h2>Local Dev Setup</h2>
 				<p>
 					I believe it is important to get comfortable with the terminal so I
@@ -105,7 +139,7 @@
 					This will create a new folder called "src" and a hsproject.json file
 				</p>
 			</section>
-			<section id="optionalPackagejson">
+			<section>
 				<h2>Local Dev Setup | Optional package.json file</h2>
 				<p>This file is optional, but will make your life slightly easier as you won't have to navigate to other
 					directories to install dependencies.</p>
@@ -213,11 +247,12 @@
 															</code></pre>
 				</div>
 			</section>
-			<section>
+			<section id="optpackage">
 				<h2>Pouring in the content | our optional package.json file </h2>
 				<p>You should now have the structure set up for your custom card. Right now, everything is empty. Let's get to
 					pouring in some content!</p>
-				<p>Remember that optional package.json file we created at the beginning? We are going to use this so we can run
+				<p>Remember that optional package.json file we created at the beginning? We are going to use this so we can
+					run
 					the scripts in the extensions and app.functions package.json file.<br> Open up the package.json file located
 					at
 					the top level of your project in your code editor and add the following</p>
@@ -239,9 +274,10 @@
 					</code>
 				</pre>
 			</section>
-			<section>
+			<section id="pa">
 				<h2>Pouring in the content | Private App </h2>
-				<p>As mentioned earlier, a custom card requires a private app. To create a private app, we are going to fill in
+				<p>As mentioned earlier, a custom card requires a private app. To create a private app, we are going to fill
+					in
 					the data in the app.json file located in the app folder</p>
 				<pre class="fade-in fragment" data-id="code-animation">
 					<code class="hljs json" data-trim data-line-numbers="|2-4|5-7|8|9-17"><script type="text/template">{
@@ -265,7 +301,7 @@
 					</code>
 				</pre>
 			</section>
-			<section>
+			<section id="cc1">
 				<h2>Pouring in the content | Custom Card | associated-deals.json </h2>
 				<p>Now we are going to pour in the content for the custom card. We will start with the associated-deals.json
 					file
@@ -290,7 +326,7 @@
 					</code>
 				</pre>
 			</section>
-			<section>
+			<section id="cc2">
 				<h2>Pouring in the content | Custom Card | AssociatedDeals.jsx</h2>
 				<p>Next up, the react file. For now, we are going to create the absolute minimum in this file. We will revisit
 					it later</p>
@@ -307,7 +343,7 @@ const Extension = () => { }</script>
 					</code>
 				</pre>
 			</section>
-			<section>
+			<section id="cc3">
 				<h2>Pouring in the content | Custom Card | package.json</h2>
 				<p>Finally for our front-end, we are going to pour in the content for the package.json file located in the
 					extensions folder</p>
@@ -328,9 +364,10 @@ const Extension = () => { }</script>
 					</code>
 				</pre>
 			</section>
-			<section>
+			<section id="sf1">
 				<h2>Pouring in the content | Serverless Functions | package.json</h2>
-				<p>Now we are going to pour in the content for the serverless function. We will start with the package.json file
+				<p>Now we are going to pour in the content for the serverless function. We will start with the package.json
+					file
 					located in the app.functions folder</p>
 				<pre class="fade-in fragment" data-id="code-animation">
 					<code class="hljs javascript" data-trim data-line-numbers="|2|6-8|"><script type="text/template">{
@@ -343,16 +380,17 @@ const Extension = () => { }</script>
   }
 }</script></code></pre>
 			</section>
-			<section>
+			<section id="sf2">
 				<h2>Pouring in the content | Serverless Functions | thanksKyle.js</h2>
-				<p>Next up, the serverless function file. For now, we are going to create the absolute minimum in this file. We
+				<p>Next up, the serverless function file. For now, we are going to create the absolute minimum in this file.
+					We
 					will revisit it later</p>
 				<pre class="fade-in fragment" data-id="code-animation">
 					<code class="hljs javascript" data-trim data-line-numbers="|1|3|">const axios = require('axios');
 
 exports.main = async () => {}</script></code></pre>
 			</section>
-			<section>
+			<section id="sf3">
 				<h2>Pouring in the content | Serverless Functions | serverless.json</h2>
 				<p>Finally for our back-end, we are going to pour in the content for the serverless.json file located in the
 					app.functions folder</p>
@@ -431,7 +469,8 @@ exports.main = async () => {}</script></code></pre>
 					<ul>
 						<li class="fade-in fragment">Clicker.jsx <br>This will be our View More Button</li>
 						<li class="fade-in fragment">DealPanel.jsx <br> This is the outer level of the panel</li>
-						<li class="fade-in fragment">DealPanelInner.jsx <br> This is where we will set what the data that we receive
+						<li class="fade-in fragment">DealPanelInner.jsx <br> This is where we will set what the data that we
+							receive
 							for the panel</li>
 						<li class="fade-in fragment">Layout.jsx <br> This controls the layout for the component</li>
 						<li class="fade-in fragment">Stats.jsx <br> This is the component that shows the data before we open the
@@ -440,7 +479,7 @@ exports.main = async () => {}</script></code></pre>
 					</ul>
 				</div>
 			</section>
-			<section>
+			<section id="cc4">
 				<h2>Building the custom card | Layout.jsx</h2>
 				<p>The first component we will create is the layout component for the card. </p>
 				<pre class="fade-in fragment" data-id="code-animation">
@@ -461,7 +500,7 @@ export const Layout = ({ stats, clicker }) => {
 		</Flex>
 )}</script></code></pre>
 			</section>
-			<section>
+			<section id="cc5">
 				<h2>Building the custom card | Stats.jsx</h2>
 				<p>Next, we will build the subcomponents for the layout.</p>
 				<pre class="fade-in fragment" data-id="code-animation">
@@ -506,7 +545,7 @@ export const Stats = ({ statTitle, operator }) => {
 };
 									</script></code></pre>
 			</section>
-			<section>
+			<section id="cc6">
 				<h2>Building the custom card | Clicker.jsx</h2>
 				<p>Next, we will build the subcomponents for the layout.</p>
 				<pre class="fade-in fragment" data-id="code-animation">
@@ -523,7 +562,7 @@ export const Clicker = ({ panelId }) => {
 }
 									</script></code></pre>
 			</section>
-			<section>
+			<section id="cc7">
 				<h2>Building the custom card | AssociatedDeals.jsx</h2>
 				<p>Let's add our components to our custom card</p>
 				<pre class="fade-in fragment" data-id="code-animation">
@@ -554,9 +593,10 @@ const Extension = () => {
 }
 									</script></code></pre>
 			</section>
-			<section>
+			<section id="cc8">
 				<h2>Building the custom card | DealPanel.jsx</h2>
-				<p>Next up, creating the panel which will be comprised of 2 components: DealPanel.jsx and DealPanelInner.jsx</p>
+				<p>Next up, creating the panel which will be comprised of 2 components: DealPanel.jsx and DealPanelInner.jsx
+				</p>
 				<p>Go ahead and open up DealPanel.jsx</p>
 				<pre class="fade-in fragment" data-id="code-animation">
 					<code class="hljs jsx" data-trim data-line-numbers="|1-6|8|11|14|18|"><script type="text/template">
@@ -585,7 +625,7 @@ export const DealPanel = ({ paneltitle, panelId, children, customFooter }) => {
 }
 															</script></code></pre>
 			</section>
-			<section>
+			<section id="cc9">
 				<h2>Building the custom card | DealPanelInner.jsx</h2>
 				<p>Moving on to the DealPanelInner.jsx</p>
 				<pre class="fade-in fragment" data-id="code-animation">
@@ -638,7 +678,7 @@ export const DealPanelInner = ({ panelSubtitle, operator }) => {
 }
 															</script></code></pre>
 			</section>
-			<section>
+			<section id="cc10">
 				<h2>Building the custom card | AssociatedDeals.jsx</h2>
 				<p>Finally, we will add the DealPanel and DealPanelInner components to our custom card</p>
 				<pre class="fade-in fragment" data-id="code-animation">
@@ -678,10 +718,11 @@ const Extension = () => {
 					</code>
 				</pre>
 			</section>
-			<section>
+			<section id="cc11">
 				<h2>Building the custom card | AssociatedDeals.jsx</h2>
 				<p>At this point, we have a fully functioning card returning deal data for this contact! Now let's pay tribute
-					to Kyle by adding a thank you button to this card. The button will use a severless function that will update a
+					to Kyle by adding a thank you button to this card. The button will use a severless function that will update
+					a
 					HubDB table. This table will in turn update <a href="thanks.kyle.team">thanks.kyle.team</a></p>
 				<p>In your AssociatedDeals.jsx file we will add a button component.</p>
 				<pre class="fade-in fragment" data-id="code-animation">
@@ -748,7 +789,8 @@ const Extension = ({ runServerless }) => {
 			</section>
 			<section>
 				<h2>Building the serverless function | Storing authentication </h2>
-				<p class="fade-out-then-out fragment">Our serverless function is going to be making an authenticated API call so
+				<p class="fade-out-then-out fragment">Our serverless function is going to be making an authenticated API call
+					so
 					we need to store the authentication method in a secret.</p>
 
 				<pre class=" fade-in-then-fade-out fragment" data-id="code-animation">
@@ -768,7 +810,8 @@ const Extension = ({ runServerless }) => {
 			<section>
 				<h2>Building the serverless function | Storing authentication</h2>
 
-				<p class="fade-in-then-fade-out fragment">Now we need to register the secret with HubSpot. In your terminal, we
+				<p class="fade-in-then-fade-out fragment">Now we need to register the secret with HubSpot. In your terminal,
+					we
 					will need to stop watching the project and add the key</p>
 				<pre class=" fade-in-then-fade-out fragment" data-id="code-animation">
 					<code class="hljs bash" data-trim data-line-numbers="3"><script type="text/template">
@@ -792,7 +835,8 @@ const Extension = ({ runServerless }) => {
 			<section>
 				<h2>Building the serverless function | thanksKyle.js</h2>
 
-				<p class="fade-in-then-fade-out fragment">We are ready to create our serverless function! Open up thanksKyle.js
+				<p class="fade-in-then-fade-out fragment">We are ready to create our serverless function! Open up
+					thanksKyle.js
 					and enter the following</p>
 				<pre class=" fade-in-then-fade-out fragment" data-id="code-animation">
 					<code class="hljs js" data-trim data-line-numbers="|1|3|5-7|8|9-14|16-26|29-38|39-50|52-60|"><script type="text/template">

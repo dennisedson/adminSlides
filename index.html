@@ -708,12 +708,14 @@ const Extension = ({ runServerless }) => {
 				</code></pre>
 			</section>
 			<section>
-				<h2>Building the serverless function | thanksKyle.js </h2>
-				<p>On the front end, we now have a button click that triggers a serverless function we have named "jepsonmeter"
+				<h2>Building the serverless function | serverless.json </h2>
+				<p class="fragment">On the front end, we now have a button click that triggers a serverless function we
+					have named "jepsonmeter"
 				</p>
-				<p class="fade-in-then-fade-out fragment">If you remember, in our severless.json file is where we added the name
+				<p class="fade-out-then-out fragment">If you remember, in our severless.json file is where we added the name
 					of the
 					serverless function</p>
+
 				<pre class=" fade-in-then-fade-out fragment" data-id="code-animation">
 					<code class="hljs jsx" data-trim data-line-numbers="3"><script type="text/template">
 {
@@ -727,9 +729,124 @@ const Extension = ({ runServerless }) => {
   }
 }
 					</script></code></pre>
-				<p class=" fade-in fragment">Let's open up the thanksKyle.js file and add our function</p>
 			</section>
+			<section>
+				<h2>Building the serverless function | Storing authentication </h2>
+				<p class="fade-out-then-out fragment">Our serverless function is going to be making an authenticated API call so
+					we need to store the authentication method in a secret.</p>
 
+				<pre class=" fade-in-then-fade-out fragment" data-id="code-animation">
+					<code class="hljs jsx" data-trim data-line-numbers="5-7"><script type="text/template">
+{
+  "appFunctions": {
+    "jepsonupdater": {
+      "file": "thanksKyle.js",
+      "secrets": [
+        "hubdb"
+      ]
+    }
+  }
+}
+					</script></code></pre>
+			</section>
+			<section>
+				<h2>Building the serverless function | Storing authentication</h2>
+
+				<p class="fade-in-then-fade-out fragment">Now we need to register the secret with HubSpot. In your terminal, we
+					will need to stop watching the project and add the key</p>
+				<pre class=" fade-in-then-fade-out fragment" data-id="code-animation">
+					<code class="hljs bash" data-trim data-line-numbers="3"><script type="text/template">
+						hs secrets add hubdb
+					</script></code></pre>
+				<p class="fade-in-then-fade-out fragment">You will be asked for the code which is</p>
+				<pre class=" fade-in-then-fade-out fragment" data-id="code-animation"><code class="hljs bash" data-trim data-line-numbers="3"><script type="text/template">
+						pat-na1-bccb209f-d999-4dcc-85ee-d2da7c875d62</script></code></pre>
+			</section>
+			<section>
+				<h2>Building the serverless function | Storing authentication</h2>
+
+				<p class="fade-in-then-fade-out fragment">We have registered the token with HubSpot, but for security reasons,
+					it will not be available for local development so we need to add it to the .env file as well</p>
+				<p class="fade-in-then-fade-out fragment">Open the .env file and add the following</p>
+				<pre class=" fade-in-then-fade-out fragment" data-id="code-animation">
+					<code class="hljs bash" data-trim data-line-numbers="3"><script type="text/template">
+						hubdb=pat-na1-bccb209f-d999-4dcc-85ee-d2da7c875d62
+					</script></code></pre>
+			</section>
+			<section>
+				<h2>Building the serverless function | thanksKyls.js</h2>
+
+				<p class="fade-in-then-fade-out fragment">We are ready to create our serverless function! Open up thanksKyle.js
+					and enter the following</p>
+				<p class="fade-in-then-fade-out fragment">Open the .env file and add the following</p>
+				<pre class=" fade-in-then-fade-out fragment" data-id="code-animation">
+					<code class="hljs js" data-trim data-line-numbers="|1|3|5-7|8|9-14|16-26|29-38|39-50|52-60|"><script type="text/template">
+const axios = require('axios');
+
+exports.main = async () => {
+  // console.log("we are connected");
+  const TABLE_ID = '14430732';
+  const ROW_ID = '155745382401';
+  const COLUMN_NAME = 'opacity';
+  const Bearer = process.env['hubdb'];
+  const axiosInstance = axios.create({
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${Bearer}`
+    }
+  });
+
+  const getRow = async () => {
+    const url = `https://api.hubapi.com/cms/v3/hubdb/tables/${TABLE_ID}/rows/${ROW_ID}`;
+    try {
+      const response = await axiosInstance.get(url);
+      console.log('Successfully fetched row:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching row:', error);
+      throw error;
+    }
+  };
+
+  const updateRow = async (row) => {
+    const url = `https://api.hubapi.com/cms/v3/hubdb/tables/${TABLE_ID}/rows/${ROW_ID}/draft`;
+    try {
+      const response = await axiosInstance.patch(url, { values: { [COLUMN_NAME]: parseFloat(row.values[COLUMN_NAME].toFixed(1)) + 0.10 } });
+      console.log('Successfully updated row:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error updating row:', error);
+      throw error;
+    }
+  };
+  const publishTable = async () => {
+    const url = `https://api.hubapi.com/cms/v3/hubdb/tables/${TABLE_ID}/draft/publish`;
+    console.log(`Attempting to publish table with ID ${TABLE_ID}`);
+    try {
+      const response = await axiosInstance.post(url);
+      console.log('Successfully published table:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error updating row:', error);
+      throw error;
+    }
+  };
+
+  try {
+    const row = await getRow();
+    const updatedRow = await updateRow(row);
+    const publish = await publishTable(row);
+
+    return { statusCode: 200, body: JSON.stringify(updatedRow) };
+  } catch (error) {
+    return { statusCode: 500, body: 'An error occurred' };
+  }
+};
+					</script></code></pre>
+			</section>
+			<section>
+				<h2>200 SUCCESS | plus some additional resources</h2>
+			</section>
 		</div>
 	</div>
 

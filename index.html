@@ -21,6 +21,7 @@
 			<section>
 				<h2>Lets build a custom card!</h2>
 				<ul>
+					<li><a href="#sample"></a>Installing a sample custom card</li>
 					<li><a href="#/fit-text">Local Dev Setup</a></li>
 					<li><a href="#/stretch">Getting started</a></li>
 					<li><a href="#/stretch">Installing an example custom card</a></li>
@@ -31,11 +32,28 @@
 					<li><a href="#/vstack">Did it work?</a></li>
 				</ul>
 			</section>
+			<section id="custom">
+				<h2>Installing a sample custom card</h2>
+				<p>
+					HubSpot has several sample custom cards built for you to explore. They provide a great way of reverse
+					engineering the process as well as demosntrating some best practices.
+					With the HubSpot CLI that has been authenticated with your account, you can install a sample custom card with
+					a single command.
+				</p>
+				<p>
+					Open up your terminal and run the following command
+				</p>
+				<pre>
+					<code class="hljs bash" data-trim data-line-numbers>
+						hs project create --templateSource="HubSpot/ui-extensions-examples" --location="multi-step-flow"
+						--name="multi-step-flow" --template="multi-step-flow"
+					</code>
+				</pre>
+			</section>
 			<section>
 				<h2>Local Dev Setup</h2>
 				<p>
-					Create a folder where you would like to work on this project. I
-					believe it is important to get comfortable with the terminal so I
+					I believe it is important to get comfortable with the terminal so I
 					will demonstrate creating folders and files in the terminal.
 				</p>
 				<p>
@@ -44,7 +62,7 @@
 					the code in later steps
 				</p>
 			</section>
-			<section>
+			<section id="structure1">
 				<h2>Local Dev Setup | structure</h2>
 				<div class="fragment fade-in-then-semi-out"">
             <p>
@@ -52,7 +70,7 @@
               jepsometer. Then we will move into the jepsometer folder.
             </p>
             <pre><code class="" data-trim data-line-numbers>
-						cd ~/Desktop && mkdir jepsometer && cd jepsometer
+						cd ~/Desktop && mkdir jepsometerProject && cd jepsometerProject
 					</code></pre>
           </div>
 
@@ -61,20 +79,21 @@
 						Now that we are in the folder we will be using, let's initialize
 						the HubSpot CLI so that it can communicate with your account
 					</p>
+					<p class="fragment fade-in-then-semi-out">
+						This command will guide you through authenticating the HubSpot CLI with your
+						account. When you are done, you will have a hubspot.config.yml file
+						in your folder
+					</p>
 					<pre><code class="" data-trim data-line-numbers>
 						hs init
 					</code></pre>
 				</div>
-				<p class="fragment fade-in-then-semi-out">
-					This will guide you through authenticating the HubSpot CLI with your
-					account. When you are done, you will have a hubspot.config.yml file
-					in your folder
-				</p>
+
 				<div class="fragment fade-in-then-semi-out">
 					<p>
 						Next step is to create a project which will act as the container
 						for our app in our account. The CLI will ask you a series of
-						questions including name of the project, location and if you wan to use a template. Call your project
+						questions including name of the project, location and if you want to use a template. Call your project
 						jepsometer and choose the
 						default location and no template
 					</p>
@@ -83,11 +102,10 @@
 					</code></pre>
 				</div>
 				<p class="fragment fade-in">
-					You should now have two files in your folder. hubspot.config.yml
-					and hsproject.json
+					This will create a new folder called "src" and a hsproject.json file
 				</p>
 			</section>
-			<section id="">
+			<section id="optionalPackagejson">
 				<h2>Local Dev Setup | Optional package.json file</h2>
 				<p>This file is optional, but will make your life slightly easier as you won't have to navigate to other
 					directories to install dependencies.</p>
@@ -95,7 +113,7 @@
 					<p> From your terminal and still in the main folder, type this command</p>
 					<pre>
 						<code class="" data-trim data-line-numbers>
-						touch package.json
+						cd jepsometer && touch package.json
 						</code>
 					</pre>
 				</div>
@@ -107,14 +125,14 @@
 				<div class="fade-in-then-semi-out fragment">
 					<p> From your terminal and still in the main folder, type the following command</p>
 					<pre><code class="bash" data-trim data-line-numbers>
-						mkdir src && cd src
+						cd src
 						</code></pre>
 					<pre><code class="bash" data-trim data-line-numbers>
 						mkdir app && cd app
 						</code></pre>
 					<pre><code class="bash" data-trim data-line-numbers>
 						touch app.json
-						</code></pre>
+					</code></pre>
 				</div>
 			</section>
 			<section>
@@ -161,7 +179,8 @@
 			</section>
 			<section>
 				<p>Serverless functions are stored in a folder called app.functions and, similar to the custom card, require 3
-					files</p>
+					files. If we will be making authenticated API calls, we will also need a .env file to store secrets. More on
+					that later</p>
 				<ul class="fade-in-then-semi-out fragment">
 					<li>functionName.json</li>
 					<li>serverless.json</li>
@@ -193,11 +212,6 @@
 															touch .env
 															</code></pre>
 				</div>
-			</section>
-			<section>
-				<h2>Pouring in the content </h2>
-				<p>You should now have the structure set up for your custom card. Right now, everything is empty. Let's get to
-					pouring in some content!</p>
 			</section>
 			<section>
 				<h2>Pouring in the content | our optional package.json file </h2>
@@ -281,13 +295,15 @@
 				<p>Next up, the react file. For now, we are going to create the absolute minimum in this file. We will revisit
 					it later</p>
 				<pre class="fade-in fragment" data-id="code-animation">
-					<code class="hljs react" data-trim data-line-numbers="|2|3-5|6|7-9|10-14|"><script type="text/template">import React from "react";
+					<code class="hljs jsx" data-trim data-line-numbers="|2|4|5-7|"><script type="text/template">import React from "react";
 import { hubspot } from "@hubspot/ui-extensions";
 
-hubspot.extend() => (
+hubspot.extend(() => (
+  <Extension
   
+  />
 ));
-}</script>
+const Extension = () => { }</script>
 					</code>
 				</pre>
 			</section>
@@ -387,7 +403,7 @@ exports.main = async () => {}</script></code></pre>
 					</pre>
 				</div>
 				<p class="fade-in fragment">Once you run this command, you can open your HubSpot account and navigate to a
-					contact record. If you have added the custrom card, you will see it with a label above it indicating that you
+					contact record. If you have added the custom card, you will see it with a label above it indicating that you
 					are actively developing this custom card. This is only viewable to you and not anyone else</p>
 			</section>
 			<section>
@@ -413,7 +429,7 @@ exports.main = async () => {}</script></code></pre>
 					</p>
 
 					<ul>
-						<li class="fade-in fragment">Clicker.tsx <br>This will be our View More Button</li>
+						<li class="fade-in fragment">Clicker.jsx <br>This will be our View More Button</li>
 						<li class="fade-in fragment">DealPanel.jsx <br> This is the outer level of the panel</li>
 						<li class="fade-in fragment">DealPanelInner.jsx <br> This is where we will set what the data that we receive
 							for the panel</li>
@@ -428,7 +444,7 @@ exports.main = async () => {}</script></code></pre>
 				<h2>Building the custom card | Layout.jsx</h2>
 				<p>The first component we will create is the layout component for the card. </p>
 				<pre class="fade-in fragment" data-id="code-animation">
-					<code class="hljs react" data-trim data-line-numbers="|1|3|4-12|">
+					<code class="hljs jsx" data-trim data-line-numbers="|2|5|6-14|"><script type="text/template">
 // first we need to import the Flex component from the ui-extensions package						
 import {Flex} from '@hubspot/ui-extensions';
 
@@ -443,7 +459,7 @@ export const Layout = ({ stats, clicker }) => {
 			{clicker}
 			</Flex>
 		</Flex>
-)}</code></pre>
+)}</script></code></pre>
 			</section>
 			<section>
 				<h2>Building the custom card | Stats.jsx</h2>
@@ -543,7 +559,7 @@ const Extension = () => {
 				<p>Next up, creating the panel which will be comprised of 2 components: DealPanel.jsx and DealPanelInner.jsx</p>
 				<p>Go ahead and open up DealPanel.jsx</p>
 				<pre class="fade-in fragment" data-id="code-animation">
-															<code class="hljs jsx" data-trim data-line-numbers="|1-6|8|11|14|18|"><script type="text/template">
+					<code class="hljs jsx" data-trim data-line-numbers="|1-6|8|11|14|18|"><script type="text/template">
 import {
   Panel,
   PanelBody,
@@ -669,7 +685,7 @@ const Extension = () => {
 					HubDB table. This table will in turn update <a href="thanks.kyle.team">thanks.kyle.team</a></p>
 				<p>In your AssociatedDeals.jsx file we will add a button component.</p>
 				<pre class="fade-in fragment" data-id="code-animation">
-				<code class="hljs jsx" data-trim data-line-numbers="|9-13|15|16-18|29-31|"><script type="text/template">
+				<code class="hljs jsx" data-trim data-line-numbers="|2|9-13|15|16-18|29-31|"><script type="text/template">
 import React from "react";
 import { hubspot, Button } from "@hubspot/ui-extensions";
 import { Layout } from "./components/Layout";
@@ -712,7 +728,7 @@ const Extension = ({ runServerless }) => {
 				<p class="fragment">On the front end, we now have a button click that triggers a serverless function we
 					have named "jepsonmeter"
 				</p>
-				<p class="fade-out-then-out fragment">If you remember, in our severless.json file is where we added the name
+				<p class="fade-out-then-out fragment">If you remember, in our serverless.json file is where we added the name
 					of the
 					serverless function</p>
 
@@ -774,11 +790,10 @@ const Extension = ({ runServerless }) => {
 					</script></code></pre>
 			</section>
 			<section>
-				<h2>Building the serverless function | thanksKyls.js</h2>
+				<h2>Building the serverless function | thanksKyle.js</h2>
 
 				<p class="fade-in-then-fade-out fragment">We are ready to create our serverless function! Open up thanksKyle.js
 					and enter the following</p>
-				<p class="fade-in-then-fade-out fragment">Open the .env file and add the following</p>
 				<pre class=" fade-in-then-fade-out fragment" data-id="code-animation">
 					<code class="hljs js" data-trim data-line-numbers="|1|3|5-7|8|9-14|16-26|29-38|39-50|52-60|"><script type="text/template">
 const axios = require('axios');

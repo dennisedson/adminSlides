@@ -189,6 +189,9 @@
 					<pre><code class="bash" data-trim data-line-numbers>
 															touch package.json
 															</code></pre>
+					<pre><code class="bash" data-trim data-line-numbers>
+															touch .env
+															</code></pre>
 				</div>
 			</section>
 			<section>
@@ -390,7 +393,241 @@ exports.main = async () => {}</script></code></pre>
 			<section>
 				<h2>Almost time to make the custom card do something...but first</h2>
 				<p>Let's talk about keeping our react components organized</p>
+				<img class="fade-in fragment" src="./imgs/atomic.jpg" alt="">
 			</section>
+			<section>
+				<img class="" src="./imgs/j3k-comps.png" alt="">
+			</section>
+			<section>
+				<p>We can reused these components and swap in different data for the next card</p>
+				<img class="" src="./imgs/j3k-comp2.png" alt="">
+			</section>
+			<section>
+				<h2>Let's further organize</h2>
+				<div class="fade-in fragment">
+					<p>
+						Navigate to the extensions folder and create a new folder called components
+					</p>
+					<p>
+						Within this folder, we are going to create 5 files.
+					</p>
+
+					<ul>
+						<li class="fade-in fragment">Clicker.tsx <br>This will be our View More Button</li>
+						<li class="fade-in fragment">DealPanel.jsx <br> This is the outer level of the panel</li>
+						<li class="fade-in fragment">DealPanelInner.jsx <br> This is where we will set what the data that we receive
+							for the panel</li>
+						<li class="fade-in fragment">Layout.jsx <br> This controls the layout for the component</li>
+						<li class="fade-in fragment">Stats.jsx <br> This is the component that shows the data before we open the
+							panel
+						</li>
+					</ul>
+				</div>
+			</section>
+			<section>
+				<h2>Building the custom card | Layout.jsx</h2>
+				<p>The first component we will create is the layout component for the card. </p>
+				<pre class="fade-in fragment" data-id="code-animation">
+					<code class="hljs react" data-trim data-line-numbers="|1|3|4-12|">
+// first we need to import the Flex component from the ui-extensions package						
+import {Flex} from '@hubspot/ui-extensions';
+
+// then we will create a functional component that takes in two props, stats and clicker
+export const Layout = ({ stats, clicker }) => {
+	return (
+		<Flex direction="row" align='start'>
+			<Flex flex="1" align="start">
+			{stats}
+			</Flex>
+			<Flex flex="2" alignSelf="center">
+			{clicker}
+			</Flex>
+		</Flex>
+)}</code></pre>
+			</section>
+			<section>
+				<h2>Building the custom card | Stats.jsx</h2>
+				<p>Next, we will build the subcomponents for the layout.</p>
+				<pre class="fade-in fragment" data-id="code-animation">
+									<code class="hljs react" data-trim data-line-numbers="|2|5|8|9-33|"><script type="text/template">
+// first we need to import the Flex component from the ui-extensions package
+import { CrmStatistics } from '@hubspot/ui-extensions/crm';
+
+// then we will create a functional component that takes in two props, statTitle and operator
+export const Stats = ({ statTitle, operator }) => {
+  return (
+    <CrmStatistics
+      objectTypeId="0-3"
+      statistics={[
+        {
+          label: statTitle,
+          statisticType: 'COUNT',
+          propertyName: 'amount',
+          // The filters below narrow the fetched 
+          // deals by the following criteria:
+          // - Amount must be >= 1,000
+          // - Deal must not be closed
+          filterGroups: [
+            {
+              filters: [
+                {
+                  operator: operator,
+                  property: 'amount',
+                  value: 1000,
+                },
+                {
+                  operator: 'NOT_IN',
+                  property: 'dealstage',
+                  values: ['closedwon', 'closedlost'],
+                },
+              ],
+            },
+          ],
+        },
+      ]}
+    />
+  );
+};
+									</script></code></pre>
+			</section>
+			<section>
+				<h2>Building the custom card | Clicker.jsx</h2>
+				<p>Next, we will build the subcomponents for the layout.</p>
+				<pre class="fade-in fragment" data-id="code-animation">
+									<code class="hljs react" data-trim data-line-numbers="|3|6-8|"><script type="text/template">
+import { Button } from "@hubspot/ui-extensions";
+
+export const Clicker = ({ panelId }) => {
+  panelId = panelId;
+  return (
+    <Button onClick={(event, reactions) => { reactions.openPanel(panelId) }}>
+      View More
+    </Button>
+  )
+}
+									</script></code></pre>
+			</section>
+			<section>
+				<h2>Building the custom card | AssociatedDeals.jsx</h2>
+				<p>Let's add our components to our custom card</p>
+				<pre class="fade-in fragment" data-id="code-animation">
+									<code class="hljs jsx" data-trim data-line-numbers="|1-5|7-11|16-18|"><script type="text/template">
+import React from "react";
+import { hubspot } from "@hubspot/ui-extensions";
+import { Layout } from "./components/Layout";
+import { Stats } from "./components/Stats";
+import { Clicker } from "./components/Clicker";
+
+hubspot.extend(() => (
+  <Extension
+	
+  />
+));
+
+const Extension = () => {
+  return (
+    <>
+      <Layout 
+				stats={<Stats statTitle={'Count of deals over 1000 dollars'} operator={'GT'} />} 
+				clicker={<Clicker panelId={"big-panel"} />} />
+      <Layout 
+				stats={<Stats statTitle={'Count of deals under 1000 dollars'} operator={'LT'} />} 
+				clicker={<Clicker panelId={"little-panel"} />} />
+    </>
+  )
+}
+									</script></code></pre>
+			</section>
+			<section>
+				<h2>Building the custom card | DealPanel.jsx</h2>
+				<p>Next up, creating the panel which will be comprised of 2 components: DealPanel.jsx and DealPanelInner.jsx</p>
+				<p>Go ahead and open up DealPanel.jsx</p>
+				<pre class="fade-in fragment" data-id="code-animation">
+															<code class="hljs react" data-trim data-line-numbers="|1-6|8|11|14|18|"><script type="text/template">
+import {
+  Panel,
+  PanelBody,
+  PanelFooter,
+  PanelSection,
+} from '@hubspot/ui-extensions';
+
+export const DealPanel = ({ paneltitle, panelId, children, customFooter }) => {
+  return (
+    <>
+      <Panel title={paneltitle} id={panelId}>
+        <PanelBody>
+          <PanelSection>
+            {children}
+          </PanelSection>
+        </PanelBody>
+        <PanelFooter>
+          {customFooter || "Footer text"}
+        </PanelFooter>
+      </Panel>
+    </>
+  )
+}
+															</script></code></pre>
+			</section>
+			<section>
+				<h2>Building the custom card | DealPanelInner.jsx</h2>
+				<p>Moving on to the DealPanelInner.jsx</p>
+				<pre class="fade-in fragment" data-id="code-animation">
+															<code class="hljs react" data-trim data-line-numbers="|1-6|8|11|14|18|"><script type="text/template">
+import { Text, Flex } from '@hubspot/ui-extensions';
+import { CrmAssociationTable } from '@hubspot/ui-extensions/crm';
+
+export const DealPanelInner = ({ panelSubtitle, operator }) => {
+  return (
+    <>
+      <Flex direction={'column'} gap={'lg'}>
+
+        <Text variant="microcopy">
+
+          This example is a card for contact records to display high-level associated deal information in a table.
+        </Text>
+        <Text format={{ fontWeight: 'bold' }}>{panelSubtitle}</Text>
+        <CrmAssociationTable
+          objectTypeId="0-3"
+          propertyColumns={[
+            'dealname',
+            'hubspot_owner_id',
+            'amount',
+            'dealstage',
+          ]}
+          quickFilterProperties={['hubspot_owner_id', 'dealstage', 'amount']}
+          pageSize={10}
+          preFilters={[
+            {
+              operator: 'NOT_IN',
+              property: 'dealstage',
+              values: ['closedwon', 'closedlost'],
+            },
+            {
+              operator: operator,
+              property: 'amount',
+              value: 1000,
+            },
+          ]}
+          sort={[
+            {
+              direction: 1,
+              columnName: 'amount',
+            },
+          ]}
+          searchable={true}
+          pagination={true}
+        />
+      </Flex>
+    </>
+  )
+
+
+}
+															</script></code></pre>
+			</section>
+
+
 		</div>
 	</div>
 

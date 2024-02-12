@@ -543,7 +543,7 @@ const Extension = () => {
 				<p>Next up, creating the panel which will be comprised of 2 components: DealPanel.jsx and DealPanelInner.jsx</p>
 				<p>Go ahead and open up DealPanel.jsx</p>
 				<pre class="fade-in fragment" data-id="code-animation">
-															<code class="hljs react" data-trim data-line-numbers="|1-6|8|11|14|18|"><script type="text/template">
+															<code class="hljs jsx" data-trim data-line-numbers="|1-6|8|11|14|18|"><script type="text/template">
 import {
   Panel,
   PanelBody,
@@ -573,7 +573,7 @@ export const DealPanel = ({ paneltitle, panelId, children, customFooter }) => {
 				<h2>Building the custom card | DealPanelInner.jsx</h2>
 				<p>Moving on to the DealPanelInner.jsx</p>
 				<pre class="fade-in fragment" data-id="code-animation">
-															<code class="hljs react" data-trim data-line-numbers="|1-6|8|11|14|18|"><script type="text/template">
+															<code class="hljs jsx" data-trim data-line-numbers="|1-2|4|7|8-10|11|12-19|20-42|"><script type="text/template">
 import { Text, Flex } from '@hubspot/ui-extensions';
 import { CrmAssociationTable } from '@hubspot/ui-extensions/crm';
 
@@ -581,9 +581,7 @@ export const DealPanelInner = ({ panelSubtitle, operator }) => {
   return (
     <>
       <Flex direction={'column'} gap={'lg'}>
-
         <Text variant="microcopy">
-
           This example is a card for contact records to display high-level associated deal information in a table.
         </Text>
         <Text format={{ fontWeight: 'bold' }}>{panelSubtitle}</Text>
@@ -621,12 +619,116 @@ export const DealPanelInner = ({ panelSubtitle, operator }) => {
       </Flex>
     </>
   )
-
-
 }
 															</script></code></pre>
 			</section>
+			<section>
+				<h2>Building the custom card | AssociatedDeals.jsx</h2>
+				<p>Finally, we will add the DealPanel and DealPanelInner components to our custom card</p>
+				<pre class="fade-in fragment" data-id="code-animation">
+					<code class="hljs jsx" data-trim data-line-numbers="|6-7|20-25|"><script type="text/template">
+import React from "react";
+import { hubspot, Button } from "@hubspot/ui-extensions";
+import { Layout } from "./components/Layout";
+import { Stats } from "./components/Stats";
+import { Clicker } from "./components/Clicker";
+import { DealPanel } from "./components/DealPanel";
+import { DealPanelInner } from "./components/DealPanelInner";
 
+hubspot.extend() => (
+  <Extension
+    
+  />
+));
+
+const Extension = () => {
+  
+  };
+  return (
+    <>
+      <DealPanel paneltitle={'More than 1000 dollars'} panelId={"big-panel"}>
+        <DealPanelInner panelSubtitle="Check out these big deals" operator={'GT'} />
+      </DealPanel>
+      <DealPanel paneltitle={"Less than 1000 dollars"} panelId={"little-panel"}>
+        <DealPanelInner panelSubtitle="Check out these little deals" operator={'LT'} />
+      </DealPanel>
+      <Layout stats={<Stats statTitle={'Count of deals over 1000 dollar'} operator={'GT'} />} clicker={<Clicker panelId={"big-panel"} />} />
+      <Layout stats={<Stats statTitle={'Count of deals under 1000 dollar'} operator={'LT'} />} clicker={<Clicker panelId={"little-panel"} />} />
+
+    </>
+  )
+}
+						</script>
+					</code>
+				</pre>
+			</section>
+			<section>
+				<h2>Building the custom card | AssociatedDeals.jsx</h2>
+				<p>At this point, we have a fully functioning card returning deal data for this contact! Now let's pay tribute
+					to Kyle by adding a thank you button to this card. The button will use a severless function that will update a
+					HubDB table. This table will in turn update <a href="thanks.kyle.team">thanks.kyle.team</a></p>
+				<p>In your AssociatedDeals.jsx file we will add a button component.</p>
+				<pre class="fade-in fragment" data-id="code-animation">
+				<code class="hljs jsx" data-trim data-line-numbers="|9-13|15|16-18|29-31|"><script type="text/template">
+import React from "react";
+import { hubspot, Button } from "@hubspot/ui-extensions";
+import { Layout } from "./components/Layout";
+import { Stats } from "./components/Stats";
+import { Clicker } from "./components/Clicker";
+import { DealPanel } from "./components/DealPanel";
+import { DealPanelInner } from "./components/DealPanelInner";
+
+hubspot.extend(({ runServerlessFunction }) => (
+  <Extension
+    runServerless={runServerlessFunction}
+  />
+));
+
+const Extension = ({ runServerless }) => {
+  const handleClick = async () => {
+    const { response } = await runServerless({ name: "jepsonupdater" });
+  };
+  return (
+    <>
+      <DealPanel paneltitle={'More than 1000 dollars'} panelId={"big-panel"}>
+        <DealPanelInner panelSubtitle="Check out these big deals" operator={'GT'} />
+      </DealPanel>
+      <DealPanel paneltitle={"Less than 1000 dollars"} panelId={"little-panel"}>
+        <DealPanelInner panelSubtitle="Check out these little deals" operator={'LT'} />
+      </DealPanel>
+      <Layout stats={<Stats statTitle={'Count of deals over 1000 dollar'} operator={'GT'} />} clicker={<Clicker panelId={"big-panel"} />} />
+      <Layout stats={<Stats statTitle={'Count of deals under 1000 dollar'} operator={'LT'} />} clicker={<Clicker panelId={"little-panel"} />} />
+      <Button onClick={handleClick}>
+        Jepson Button
+      </Button>
+    </>
+  )
+}
+				</script>
+				</code></pre>
+			</section>
+			<section>
+				<h2>Building the serverless function | thanksKyle.js </h2>
+				<p>On the front end, we now have a button click that triggers a serverless function we have named "jepsonmeter"
+				</p>
+				<p class="fade-in-then-fade-out fragment">If you remember, in our severless.json file is where we added the name
+					of the
+					serverless function</p>
+				<pre class=" fade-in-then-fade-out fragment" data-id="code-animation">
+					<code class="hljs jsx" data-trim data-line-numbers="3"><script type="text/template">
+{
+  "appFunctions": {
+    "jepsonupdater": {
+      "file": "thanksKyle.js",
+      "secrets": [
+        "hubdb"
+      ]
+    }
+  }
+}
+					</script></code></pre>
+				<p class=" fade-in fragment">Let's open up the thanksKyle.js file and add our function</p>
+			</section>
 
 		</div>
 	</div>

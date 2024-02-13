@@ -513,9 +513,14 @@ exports.main = async () => {}</script></code></pre>
 				<h2>Upload the project to your HubSpot account</h2>
 				<p>We have done a lot! And now we have the minimum required files and content to register this extension with
 					our HubSpot account. </p>
-				<p class="fade-in-then-semi-fade-out fragment"> Let's head back to the terminal. Make sure you are in the root
-					directory which
-					would be the one that contains the hsproject.json file. Once you are there, run this command </p>
+				<p> Let's head back to the terminal. Make sure you are in the root
+					directory which would be the one that contains the hsproject.json file. Once you are there, run this command
+				</p>
+				<pre>
+										<code class="hljs bash" data-trim data-line-numbers>
+											npm install
+										</code>
+									</pre>
 				<pre>
 					<code class="hljs bash" data-trim data-line-numbers>
 					hs project upload
@@ -783,24 +788,22 @@ export const DealPanelInner = ({ panelSubtitle, operator }) => {
 				<h2>Building the custom card | AssociatedDeals.jsx</h2>
 				<p>Finally, we will add the DealPanel and DealPanelInner components to our custom card</p>
 				<pre class="fade-in fragment" data-id="code-animation">
-					<code class="hljs jsx" data-trim data-line-numbers="|6-7|20-25|"><script type="text/template">
+					<code class="hljs jsx" data-trim data-line-numbers="|6-7|18-23|"><script type="text/template">
 import React from "react";
-import { hubspot, Button } from "@hubspot/ui-extensions";
+import { hubspot } from "@hubspot/ui-extensions";
 import { Layout } from "./components/Layout";
 import { Stats } from "./components/Stats";
 import { Clicker } from "./components/Clicker";
 import { DealPanel } from "./components/DealPanel";
 import { DealPanelInner } from "./components/DealPanelInner";
 
-hubspot.extend() => (
+hubspot.extend(() => (
   <Extension
-    
+
   />
 ));
 
 const Extension = () => {
-  
-  };
   return (
     <>
       <DealPanel paneltitle={'More than 1000 dollars'} panelId={"big-panel"}>
@@ -809,9 +812,12 @@ const Extension = () => {
       <DealPanel paneltitle={"Less than 1000 dollars"} panelId={"little-panel"}>
         <DealPanelInner panelSubtitle="Check out these little deals" operator={'LT'} />
       </DealPanel>
-      <Layout stats={<Stats statTitle={'Count of deals over 1000 dollar'} operator={'GT'} />} clicker={<Clicker panelId={"big-panel"} />} />
-      <Layout stats={<Stats statTitle={'Count of deals under 1000 dollar'} operator={'LT'} />} clicker={<Clicker panelId={"little-panel"} />} />
-
+      <Layout
+        stats={<Stats statTitle={'Count of deals over 1000 dollars'} operator={'GT'} />}
+        clicker={<Clicker panelId={"big-panel"} />} />
+      <Layout
+        stats={<Stats statTitle={'Count of deals under 1000 dollars'} operator={'LT'} />}
+        clicker={<Clicker panelId={"little-panel"} />} />
     </>
   )
 }
@@ -1005,7 +1011,13 @@ exports.main = async () => {
 					</script></code></pre>
 			</section>
 			<section>
-				<h2>200 SUCCESS | plus some additional resources</h2>
+				<h2>200 SUCCESS!</h2>
+				<p>Congrats! You should now have an custom card ready to deploy. We need to run the upload command one last time
+					to push our changes</p>
+				<pre data-id="code-animation">
+										<code class="hljs bash" data-trim data-line-numbers="|1|3|5-7|8|9-14|16-26|29-38|39-50|52-60|"><script type="text/template">
+											hs project upload
+										</script></code></pre>
 			</section>
 		</div>
 	</div>

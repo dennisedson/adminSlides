@@ -53,7 +53,7 @@
 			</section>
 			<section>
 				<h2>You will have questions?</h2>
-				<p>It is ok to not know the answer</p>
+				<p>and it is ok to not know the answer</p>
 			</section>
 			<section>
 				<h2>I do not know how a pc works</h2>
@@ -62,6 +62,42 @@
 				<h2>I am going to build this with you</h2>
 				<iframe src="https://giphy.com/embed/ule4vhcY1xEKQ" width="480" height="480" frameBorder="0" class="giphy-embed"
 					allowFullScreen></iframe>
+
+			</section>
+			<section>
+				<h2>resources</h2>
+				<p>This is a collection of resources to help you on your way</p>
+				<ul>
+					<li><a target="_blank" href="https://developers.hubspot.com/docs/platform/ui-extension-components">Available
+							components</a></li>
+					<li><a target="_blank" href="https://developers.hubspot.com/docs/platform/sample-projects">Sample projects to
+							start from</a></li>
+					<li><a target="_blank"
+							href="https://developers.hubspot.com/docs/platform/component-design-guidelines">Ensuring a good UX for
+							your UI Extensions</a></li>
+					<li><a target="_blank" href="https://developers.hubspot.com/blog/why-hire-crm-and-api-focused-developers">How
+							and why to hire a CRM Developer</a></li>
+					<li><a target="_blank" href="https://developers.hubspot.com/docs/platform/create-a-project">What are
+							projects</a></li>
+					<li><a target="_blank" href="https://developers.hubspot.com/docs/platform/serverless-functions">Serverless
+							functionality</a></li>
+					<li><a target="_blank"
+							href="https://developers.hubspot.com/docs/platform/developer-projects-setup">Development sandboxes</a>
+					</li>
+					<li><a target="_blank"
+							href="https://developers.hubspot.com/docs/platform/link-a-github-repository-to-a-project">GitHub
+							integration</a></li>
+					<li><a target="_blank"
+							href="https://developers.hubspot.com/docs/platform/create-private-apps-with-projects-ui-extensions">Private
+							apps</a></li>
+					<li><a target="_blank" href="http://localhost:8000/">Developer YouTube Channel</a></li>
+				</ul>
+
+
+
+
+
+
 
 			</section>
 			<section>
@@ -116,12 +152,18 @@
 						href="https://youtu.be/pMf4k0dTwU8" target="_blank">a video </a> detailing
 					this part.</p>
 				<ul>
-					<li>node.js</li>
-					<li>A code editor. I will be using VSCode</li>
-					<li>the HubSpot CLI</li>
-					<li>App Developer Account</li>
-					<li>Developer test account</li>
-					<li>Enrolled in the UIE beta</li>
+					<li><a target="_blank" href="https://nodejs.org/en">node.js</a></li>
+					<li>A code editor. I will be using <a target="_blank" href="https://code.visualstudio.com/download">VSCode</a>
+					</li>
+					<li><a target="_blank"
+							href="https://developers.hubspot.com/docs/cms/guides/getting-started-with-local-development">the HubSpot
+							CLI</a></li>
+					<li><a target="_blank" href="https://app.hubspot.com/signup-hubspot/developers">App Developer Account</a></li>
+					<li><a target="_blank"
+							href="https://developers.hubspot.com/docs/api/account-types#developer-test-accounts">Developer test
+							account</a></li>
+					<li><a target="_blank" href="https://developers.hubspot.com/docs/platform/ui-extensions-overview">Enrolled in
+							the UIE beta</a></li>
 				</ul>
 			</section>
 			<section id="custom">
@@ -130,11 +172,15 @@
 					HubSpot has several sample custom cards built for you to explore. They provide a great way of reverse
 					engineering the process as well as demosntrating some best practices.
 					With the HubSpot CLI that has been authenticated with your account, you can install a sample custom card
-					with
-					a single command.
+					with easily.
 				</p>
 				<p>
-					Open up your terminal and run the following command
+					On your desktop, create a new folder called Samplecard. If you are using VSCode, you can use the <a
+						href="https://developers.hubspot.com/docs/cms/guides/install-and-use-hubspot-code-extension"
+						target="_blank">HubSpot
+						extension</a> to authenticate your project with your HubSpot account. Then navigate to this folder in your
+					terminal.
+					In your terminal, run the following command.
 				</p>
 				<pre>
 					<code class="hljs bash" data-trim data-line-numbers>
@@ -157,27 +203,23 @@
 			</section>
 			<section id="structure1">
 				<h2>Local Dev Setup | structure</h2>
-				<div class="fragment fade-in-then-semi-out"">
-            <p>
-              We will move to the desktop folder and create a new folder called
-              jepsometer. Then we will move into the jepsometer folder.
-            </p>
-            <pre><code class="" data-trim data-line-numbers>
-						cd ~/Desktop && mkdir jepsometerProject && cd jepsometerProject
-					</code></pre>
-          </div>
+				<div class="fragment fade-in-then-semi-out">
+					<p>
+						First, create a folder called jepsometerProject your desktop. Then navigate to this folder in your terminal
+					</p>
+				</div>
 
-          <div class=" fragment fade-in-then-semi-out">
+				<div class=" fragment fade-in-then-semi-out">
 					<p>
 						Now that we are in the folder we will be using, let's initialize
 						the HubSpot CLI so that it can communicate with your account
 					</p>
 					<p class="fragment fade-in-then-semi-out">
-						This command will guide you through authenticating the HubSpot CLI with your
+						The following command will guide you through authenticating the HubSpot CLI with your
 						account. When you are done, you will have a hubspot.config.yml file
 						in your folder
 					</p>
-					<pre><code class="" data-trim data-line-numbers>
+					<pre><code class="fragment fade-in-then-semi-out" data-trim data-line-numbers>
 						hs init
 					</code></pre>
 				</div>
